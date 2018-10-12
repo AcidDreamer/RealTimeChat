@@ -1,0 +1,6 @@
+module.exports = {
+    presets: ["@babel/env"], // "@babel/preset-env"
+    plugins: ["@babel/transform-arrow-functions","transform-decorators-legacy","@babel/plugin-proposal-decorators", { "decoratorsBeforeExport": true }], // same as "@babel/plugin-transform-arrow-functions"
+  };
+  
+  

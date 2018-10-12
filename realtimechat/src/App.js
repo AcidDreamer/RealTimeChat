@@ -9,7 +9,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import firebase from 'firebase/app';
 import { createMuiTheme } from '@material-ui/core/styles';
-
+import connectToStores from 'alt/utils/connectToStores';
+import ChatStore from './stores/ChatStore';
+import Login from './component/Login'
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -34,9 +36,39 @@ class App extends Component {
     });
     
   }
+  static getStores(){
+    return [ChatStore];
+  }
+  static getPropsFromStores(){
+    return ChatStore.getState();
+  }
 
   render() {
+    var view = <Login />;
+
+    if (this.props.user){
+      view = (
+        <div>
+          <div>
+          <div style={{
+            display : 'flex',
+            flexFlow : 'row wrap',
+            maxWidth : 1200,
+            width : '100%',
+            margin : '30px auto 30px'
+          }}>
+          <ChannelList />
+          <MessageList />
+        </div>
+        <MessageBox />
+        </div>
+
+        </div>
+      );
+    }
     return (
+       
+
         <body>
           <div>
             <AppBar position="static">
@@ -46,21 +78,11 @@ class App extends Component {
                   </Typography>
                 </Toolbar>
             </AppBar>
-            <div style={{
-              display : 'flex',
-              flexFlow : 'row wrap',
-              maxWidth : 1200,
-              width : '100%',
-              margin : '30px auto 30px'
-            }}>
-            <ChannelList />
-            <MessageList />
-          </div>
-          <MessageBox />
+            {{view}}
           </div>
         </body>
     );
   }
 }
 
-export default App;
+export default (connectToStores)(App);
